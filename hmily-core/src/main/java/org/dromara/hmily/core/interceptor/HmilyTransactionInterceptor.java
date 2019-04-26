@@ -21,7 +21,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 
 /**
  * The HmilyTransactionInterceptor.
- *
+ *  拦截器
  * @author xiaoyu
  */
 @FunctionalInterface

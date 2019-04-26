@@ -17,6 +17,8 @@
 
 package org.dromara.hmily.core.service.impl;
 
+import java.util.Objects;
+
 import org.dromara.hmily.common.bean.context.HmilyTransactionContext;
 import org.dromara.hmily.common.enums.HmilyRoleEnum;
 import org.dromara.hmily.core.service.HmilyTransactionFactoryService;
@@ -25,8 +27,6 @@ import org.dromara.hmily.core.service.handler.LocalHmilyTransactionHandler;
 import org.dromara.hmily.core.service.handler.ParticipantHmilyTransactionHandler;
 import org.dromara.hmily.core.service.handler.StarterHmilyTransactionHandler;
 import org.springframework.stereotype.Service;
-
-import java.util.Objects;
 
 ;
 
@@ -38,30 +38,32 @@ import java.util.Objects;
 @Service("hmilyTransactionFactoryService")
 public class HmilyTransactionFactoryServiceImpl implements HmilyTransactionFactoryService {
 
-    /**
-     * acquired HmilyTransactionHandler.
-     *
-     * @param context {@linkplain HmilyTransactionContext}
-     * @return Class
-     */
-    @Override
-    public Class factoryOf(final HmilyTransactionContext context) {
-        if (Objects.isNull(context)) {
-            return StarterHmilyTransactionHandler.class;
-        } else {
-            //why this code?  because spring cloud invoke has proxy.
-            if (context.getRole() == HmilyRoleEnum.SPRING_CLOUD.getCode()) {
-                context.setRole(HmilyRoleEnum.START.getCode());
-                return ConsumeHmilyTransactionHandler.class;
-            }
-            // if context not null and role is inline  is ParticipantHmilyTransactionHandler.
-            if (context.getRole() == HmilyRoleEnum.LOCAL.getCode()) {
-                return LocalHmilyTransactionHandler.class;
-            } else if (context.getRole() == HmilyRoleEnum.START.getCode()
-                    || context.getRole() == HmilyRoleEnum.INLINE.getCode()) {
-                return ParticipantHmilyTransactionHandler.class;
-            }
-            return ConsumeHmilyTransactionHandler.class;
-        }
-    }
+	/**
+	 * acquired HmilyTransactionHandler.
+	 *
+	 * @param context
+	 *            {@linkplain HmilyTransactionContext}
+	 * @return Class
+	 */
+	@Override
+	public Class factoryOf(final HmilyTransactionContext context) {
+		// 事务处理类的工厂方法
+		if (Objects.isNull(context)) {
+			return StarterHmilyTransactionHandler.class;
+		} else {
+			// why this code? because spring cloud invoke has proxy.
+			if (context.getRole() == HmilyRoleEnum.SPRING_CLOUD.getCode()) {
+				context.setRole(HmilyRoleEnum.START.getCode());
+				return ConsumeHmilyTransactionHandler.class;
+			}
+			// if context not null and role is inline is ParticipantHmilyTransactionHandler.
+			if (context.getRole() == HmilyRoleEnum.LOCAL.getCode()) {
+				return LocalHmilyTransactionHandler.class;
+			} else if (context.getRole() == HmilyRoleEnum.START.getCode()
+					|| context.getRole() == HmilyRoleEnum.INLINE.getCode()) {
+				return ParticipantHmilyTransactionHandler.class;
+			}
+			return ConsumeHmilyTransactionHandler.class;
+		}
+	}
 }

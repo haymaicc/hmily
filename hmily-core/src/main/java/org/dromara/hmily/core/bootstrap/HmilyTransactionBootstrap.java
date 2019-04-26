@@ -29,6 +29,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 /**
  * hmily bootstrap.
  * @author xiaoyu
+ * 启动类，刷新配置文件
  */
 public class HmilyTransactionBootstrap extends HmilyConfig implements ApplicationContextAware {
 

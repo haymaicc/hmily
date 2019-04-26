@@ -24,47 +24,48 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.dromara.hmily.annotation.Hmily;
 
 /**
- * this is {@linkplain Hmily} aspect handler.
- *
- * @author xiaoyu
+ * aop 拦截所有的Hmily标记的所有prepare方法
  */
 @Aspect
 public abstract class AbstractHmilyTransactionAspect {
 
-    private HmilyTransactionInterceptor hmilyTransactionInterceptor;
+	private HmilyTransactionInterceptor hmilyTransactionInterceptor;
 
-    /**
-     * Sets hmily transaction interceptor.
-     *
-     * @param hmilyTransactionInterceptor the hmily transaction interceptor
-     */
-    protected void setHmilyTransactionInterceptor(final HmilyTransactionInterceptor hmilyTransactionInterceptor) {
-        this.hmilyTransactionInterceptor = hmilyTransactionInterceptor;
-    }
+	/**
+	 * Sets hmily transaction interceptor.
+	 *
+	 * @param hmilyTransactionInterceptor
+	 *            the hmily transaction interceptor
+	 */
+	protected void setHmilyTransactionInterceptor(final HmilyTransactionInterceptor hmilyTransactionInterceptor) {
+		this.hmilyTransactionInterceptor = hmilyTransactionInterceptor;
+	}
 
-    /**
-     * this is point cut with {@linkplain Hmily }.
-     */
-    @Pointcut("@annotation(org.dromara.hmily.annotation.Hmily)")
-    public void hmilyInterceptor() {
-    }
+	/**
+	 * this is point cut with {@linkplain Hmily }.
+	 */
+	@Pointcut("@annotation(org.dromara.hmily.annotation.Hmily)")
+	public void hmilyInterceptor() {
+	}
 
-    /**
-     * this is around in {@linkplain Hmily }.
-     *
-     * @param proceedingJoinPoint proceedingJoinPoint
-     * @return Object object
-     * @throws Throwable Throwable
-     */
-    @Around("hmilyInterceptor()")
-    public Object interceptTccMethod(final ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        return hmilyTransactionInterceptor.interceptor(proceedingJoinPoint);
-    }
+	/**
+	 * this is around in {@linkplain Hmily }.
+	 *
+	 * @param proceedingJoinPoint
+	 *            proceedingJoinPoint
+	 * @return Object object
+	 * @throws Throwable
+	 *             Throwable
+	 */
+	@Around("hmilyInterceptor()")
+	public Object interceptTccMethod(final ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+		return hmilyTransactionInterceptor.interceptor(proceedingJoinPoint);
+	}
 
-    /**
-     * spring Order.
-     *
-     * @return int order
-     */
-    public abstract int getOrder();
+	/**
+	 * spring Order.
+	 *
+	 * @return int order
+	 */
+	public abstract int getOrder();
 }

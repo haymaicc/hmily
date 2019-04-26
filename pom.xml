@@ -17,6 +17,7 @@
         <module>hmily-annotation</module>
         <module>hmily-admin</module>
         <module>hmily-motan</module>
+        <module>hmily-demo</module>
         <module>hmily-spring-boot-starter</module>
     </modules>
 

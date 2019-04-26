@@ -24,21 +24,22 @@ import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
 /**
- * SpringCloudHmilyTransactionAspect.
- *
+ * SpringCloudHmilyTransactionAspect. spring cloud 的aop切面
+ * 
  * @author xiaoyu
  */
 @Aspect
 @Component
 public class SpringCloudHmilyTransactionAspect extends AbstractHmilyTransactionAspect implements Ordered {
 
-    @Autowired
-    public SpringCloudHmilyTransactionAspect(final SpringCloudHmilyTransactionInterceptor springCloudHmilyTransactionInterceptor) {
-        this.setHmilyTransactionInterceptor(springCloudHmilyTransactionInterceptor);
-    }
+	@Autowired
+	public SpringCloudHmilyTransactionAspect(
+			final SpringCloudHmilyTransactionInterceptor springCloudHmilyTransactionInterceptor) {
+		this.setHmilyTransactionInterceptor(springCloudHmilyTransactionInterceptor);
+	}
 
-    @Override
-    public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE;
-    }
+	@Override
+	public int getOrder() {
+		return Ordered.HIGHEST_PRECEDENCE;
+	}
 }

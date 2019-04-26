@@ -35,30 +35,37 @@ import org.springframework.stereotype.Service;
 @SuppressWarnings("unchecked")
 public class HmilyTransactionAspectServiceImpl implements HmilyTransactionAspectService {
 
-    private final HmilyTransactionFactoryService hmilyTransactionFactoryService;
+	private final HmilyTransactionFactoryService hmilyTransactionFactoryService;
 
-    /**
-     * Instantiates a new Hmily transaction aspect service.
-     *
-     * @param hmilyTransactionFactoryService the hmily transaction factory service
-     */
-    @Autowired
-    public HmilyTransactionAspectServiceImpl(final HmilyTransactionFactoryService hmilyTransactionFactoryService) {
-        this.hmilyTransactionFactoryService = hmilyTransactionFactoryService;
-    }
+	/**
+	 * Instantiates a new Hmily transaction aspect service.
+	 *
+	 * @param hmilyTransactionFactoryService
+	 *            the hmily transaction factory service
+	 */
+	@Autowired
+	public HmilyTransactionAspectServiceImpl(final HmilyTransactionFactoryService hmilyTransactionFactoryService) {
+		this.hmilyTransactionFactoryService = hmilyTransactionFactoryService;
+	}
 
-    /**
-     * hmily transaction aspect.
-     *
-     * @param hmilyTransactionContext {@linkplain  HmilyTransactionContext}
-     * @param point                   {@linkplain ProceedingJoinPoint}
-     * @return object  return value
-     * @throws Throwable exception
-     */
-    @Override
-    public Object invoke(final HmilyTransactionContext hmilyTransactionContext, final ProceedingJoinPoint point) throws Throwable {
-        final Class clazz = hmilyTransactionFactoryService.factoryOf(hmilyTransactionContext);
-        final HmilyTransactionHandler txTransactionHandler = (HmilyTransactionHandler) SpringBeanUtils.getInstance().getBean(clazz);
-        return txTransactionHandler.handler(point, hmilyTransactionContext);
-    }
+	/**
+	 * hmily transaction aspect.
+	 *
+	 * @param hmilyTransactionContext
+	 *            {@linkplain HmilyTransactionContext}
+	 * @param point
+	 *            {@linkplain ProceedingJoinPoint}
+	 * @return object return value
+	 * @throws Throwable
+	 *             exception
+	 */
+	@Override
+	public Object invoke(final HmilyTransactionContext hmilyTransactionContext, final ProceedingJoinPoint point)
+			throws Throwable {
+		final Class clazz = hmilyTransactionFactoryService.factoryOf(hmilyTransactionContext);
+		final HmilyTransactionHandler txTransactionHandler = (HmilyTransactionHandler) SpringBeanUtils.getInstance()
+				.getBean(clazz);
+		// 调用不同的handle 实现事务处理
+		return txTransactionHandler.handler(point, hmilyTransactionContext);
+	}
 }
